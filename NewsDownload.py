@@ -69,23 +69,33 @@ class Jfrb(Paper):
     def download(self):
         date_list = self.date.split('-')
 
-        nYear = int(date_list[0])
-        nMonth = int(date_list[1])
-        nDay = int(date_list[2])
-
+        #nYear = date_list[0]
+        nYear ="2015"
+        #nMonth = date_list[1]
+        nMonth = "03"
+        #nDay = date_list[2]
+        nDay = "19"
+        urlP = (self.baseUrl + "/%04s-%02s/%02s/" ) % (nYear, nMonth, nDay)
+        
         for page in range(1, self.max_page+1):
+            j=0
+            #pdf_file1 = "jf%02d-%02ss.pdf" % (page, nDay)
+            pdf_files = ["jf%02d-%02ss.pdf" % (page, nDay), "jf%02d-%02sS.pdf" % (page, nDay), "JF%02d-%02sS.pdf" % (page, nDay), "JF%02d-%02ss.pdf" % (page, nDay)]
             downloaded = False
-            pdf_files = ["jf%02d-%02ds.pdf" % (page, nDay), "JF%02d-%02ds.pdf" % (page, nDay), "jf%02d-%02dS.pdf" % (page, nDay), "JF%02d-%02dS.pdf" % (page, nDay)]
-            for pdf_file in pdf_files:
-                url = (self.baseUrl + "/%04d-%02d/%02d/" + pdf_file) % (nYear, nMonth, nDay)
+            
+            while (downloaded==False and j<=4) :
+                url=urlP+pdf_files[j]
                 try:
+                
                     path = self.pdfDir + "/" + "0%d.pdf" % page;
                     downloadPdf(url, path)
                     downloaded = True
                     break
                     print url, "downloaded successfully!"
                 except:
-                    os.remove(path) 
+                    os.remove(path)
+                    j=j+1
+                    print "Failed to down ", url
 
             if not downloaded:
                 print "Failed to download ", url
