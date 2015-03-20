@@ -45,10 +45,10 @@ class Jfrb(Paper):
         self.baseDir = baseDir
         self.date = date
         self.max_page = max_page
-        self.pdfDir = baseDir + "/" + date + "/" + "pdf"
-        self.jpgDir = baseDir + "/" + date + "/" + "img"
+        self.pdfDir = baseDir + "/"
+        #self.jpgDir = baseDir + "/" + date + "/" + "img"
 
-        mkdir_p(self.jpgDir)
+        #mkdir_p(self.jpgDir)
         mkdir_p(self.pdfDir)
 
     def download(self):
@@ -97,10 +97,10 @@ class Whb(Paper):
         self.baseDir = baseDir
         self.date = date
         self.max_page = max_page
-        self.pdfDir = baseDir + "/" + date + "/" + "pdf"
-        self.jpgDir = baseDir + "/" + date + "/" + "img"
+        self.pdfDir = baseDir + "/" 
+        #self.jpgDir = baseDir + "/" + date + "/" + "img"
 
-        mkdir_p(self.jpgDir)
+        #mkdir_p(self.jpgDir)
         mkdir_p(self.pdfDir)
 
     def download(self):
@@ -128,10 +128,10 @@ class Qnb(Paper):
         self.baseDir = baseDir
         self.date = date
         self.max_page = max_page
-        self.pdfDir = baseDir + "/" + date + "/" + "pdf"
-        self.jpgDir = baseDir + "/" + date + "/" + "img"
+        self.pdfDir = baseDir+"/"
+        #self.jpgDir = baseDir + "/" + date + "/" + "img"
 
-        mkdir_p(self.jpgDir)
+        #mkdir_p(self.jpgDir)
         mkdir_p(self.pdfDir)
 
     def download(self):
@@ -174,24 +174,24 @@ def main():
         return
     
     elif paper == 0:
-        qnb = Qnb("./qnb", date, 8)
+        qnb = Qnb("./paper/qnb/pdfDownload", date, 16)
         qnb.download()
-        whb = Whb("./whb", date, 8)
+        whb = Whb("./paper/whb/pdfDownload", date, 8)
         whb.download()
         
-        jfrb = Jfrb("./jfrb", date, 8)
+        jfrb = Jfrb("./paper/jfrb/pdfDownload", date, 8)
         jfrb.download()
 
 
     elif paper == 1:
-        jfrb = Jfrb("./jfrb", date, 8)
+        jfrb = Jfrb("./paper/jfrb/pdfDownload", date, 8)
         jfrb.download()
 
     elif paper == 2:
-        whb = Whb("./whb", date, 8)
+        whb = Whb("./paper/whb/pdfDownload", date, 8)
         whb.download()
     elif paper == 3:
-        qnb = Qnb("./qnb", date, 8)
+        qnb = Qnb("./paper/qnb/pdfDownload", date, 16)
         qnb.download()
 
 
