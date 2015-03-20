@@ -8,7 +8,7 @@ import urllib2
 def downloadPdf(urlStr, targetFile):
     url = URL(urlStr)
     f = open(targetFile, 'wb')
-    f.write(url.download(timeout=30, cached=False))
+    f.write(url.download(timeout=50, cached=False))
     f.close()
     return True
 
@@ -21,26 +21,11 @@ def mkdir_p(path):
             pass
         else: raise
 
+def urlexists(urlStr):
+    url = URL(urlStr)
+    existornot=url.exists
+    return existornot
 
-
-def validateDate(date):
-    l = date.split('-')
-    if(len(l) == 3 and len(l[0]) == 4 and len(l[1]) == 2 and len(l[2]) == 2):
-        ret = True
-    else:
-        ret = False
-    return ret
-
-
-
-def url_exist(url):
-    try:
-        f = urllib2.urlopen(urllib2.Request(url))
-        deadLinkFound = False
-    except:
-        deadLinkFound = True
-
-    return deadLinkFound
 
 class Paper:
     baseDir = "./"
@@ -69,40 +54,42 @@ class Jfrb(Paper):
     def download(self):
         date_list = self.date.split('-')
 
-        #nYear = date_list[0]
-        nYear ="2015"
-        #nMonth = date_list[1]
-        nMonth = "03"
-        #nDay = date_list[2]
-        nDay = "19"
+        nYear = date_list[0]
+        #nYear ="2015"
+        nMonth = date_list[1]
+        #nMonth = "03"
+        nDay = date_list[2]
+        #nDay = "19"
         urlP = (self.baseUrl + "/%04s-%02s/%02s/" ) % (nYear, nMonth, nDay)
         
         for page in range(1, self.max_page+1):
-            j=0
+            #j=0
+            path = self.pdfDir + "/" + "0%d.pdf" % page;
             #pdf_file1 = "jf%02d-%02ss.pdf" % (page, nDay)
             pdf_files = ["jf%02d-%02ss.pdf" % (page, nDay), "jf%02d-%02sS.pdf" % (page, nDay), "JF%02d-%02sS.pdf" % (page, nDay), "JF%02d-%02ss.pdf" % (page, nDay)]
-            downloaded = False
-            
-            while (downloaded==False and j<=4) :
-                url=urlP+pdf_files[j]
-                try:
-                
-                    path = self.pdfDir + "/" + "0%d.pdf" % page;
+            #downloaded = False
+            url=urlP+pdf_files[0]
+            if urlexists(url):
+                downloadPdf(url, path)
+                print url, "downloaded successfully!"
+            else:
+                url=urlP+pdf_files[1]
+                if urlexists(url):
                     downloadPdf(url, path)
-                    downloaded = True
-                    break
                     print url, "downloaded successfully!"
-                except:
-                    os.remove(path)
-                    j=j+1
-                    print "Failed to down ", url
-
-            if not downloaded:
-                print "Failed to download ", url
-
-   
-
-
+                else:
+                    url=urlP+pdf_files[2]
+                    if urlexists(url):
+                        downloadPdf(url, path)
+                        print url, "downloaded successfully!"
+                    else:
+                        url=urlP+pdf_files[3]
+                        if urlexists(url):
+                            downloadPdf(url, path)
+                            print url, "downloaded successfully!"
+                        else:
+                            print "Failed to download ", url
+            
 
 class Whb(Paper):
     baseUrl = "http://wenhui.news365.com.cn/resfiles"
