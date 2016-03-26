@@ -1,5 +1,5 @@
-# NewsDownload
-a simple python script to download news pdf from a range of URLs (helped by Haibo Li)
+# NewsPdfDownload
+A simple python script to download news pdf from a range of URLs (helped by Haibo Li)
 
 1.pattern.web is needed to download from url
 
